@@ -12,6 +12,8 @@ public class FutureServiceImpl<In, Out> implements FutureService<In, Out> {
 
     private final AtomicInteger atomicInteger = new AtomicInteger(0);
 
+    private CallBack callBack;
+
     private String getNextThreadName() {
         return THREAD_PREFIX_NAME + atomicInteger.getAndIncrement();
     }
@@ -30,13 +32,18 @@ public class FutureServiceImpl<In, Out> implements FutureService<In, Out> {
     }
 
     @Override
-    public Future<Out> submit(Task<In, Out> task, In input) {
-
+    public Future<Out> submit(Task<In, Out> task, In input, CallBack<Out> callBack) {
+        this.callBack = callBack;
         FutureTask<Out> futureTask = new FutureTask<>();
 
         new Thread(() -> {
             Out out = task.get(input);
             futureTask.finish(out);
+
+            //回调
+            if (callBack != null) {
+                callBack.call(out);
+            }
 
         }, getNextThreadName()).start();
 

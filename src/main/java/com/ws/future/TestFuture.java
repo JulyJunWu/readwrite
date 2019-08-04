@@ -47,7 +47,9 @@ public class TestFuture {
             }
 
             return input.length();
-        }, "ZWS");
+        }, "ZWS", out -> {
+            System.out.println("回调接口 : " + out);
+        });
 
 
         Integer result = future.get();
