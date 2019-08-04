@@ -1,5 +1,7 @@
 package com.ws.lock;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.StampedLock;
 import java.util.stream.IntStream;
 
 import static java.lang.Thread.currentThread;
@@ -7,6 +9,12 @@ import static java.lang.Thread.currentThread;
 /**
  * @author Jun
  * data  2019-08-04 0:27
+ * <p>
+ * <p>
+ * 读写锁使用场景:
+ * 当某个共享资源 读请求 远大于写请求时, 推荐使用 {@link ReentrantReadWriteLock}
+ * <p>
+ * 当写请求大于读请求时 -> 参考 {@link StampedLock};
  */
 public class TestShareData {
 
