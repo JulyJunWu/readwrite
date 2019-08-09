@@ -69,10 +69,48 @@
         JVM参数设置方式:
             1. -XX:+<option> 开启option参数, 如-XX:+TraceClassLoading 有些参数是默认关闭的,可以使用此方式开启
             2. -XX:-<option> 关闭option参数  有些参数是默认开启的,可以只用此方式关闭
-            3.-XX:<option>=<value>  设置option参数值为value, 如 -XX:xms=200m
+            3. -XX:<option>=<value>  设置option参数值为value, 如 -XX:xms=200m
 
 
-
+  常量池:
+    ICONST_m1 ~ ICONST_5  将-1 ~ 5 的数字压入栈 详情查看 com.sun.org.apache.bcel.internal.generic.ICONST
+    BIPUSH -> 将单字节(-128-127)的常量值推送至栈顶com.sun.org.apache.bcel.internal.generic.BIPUSH
+   
+  数组不是对类的主动使用->因此不会导类初始化
+  数组的实例是由JVM在运行期间生成的
+  
+  anewarray : 创建一个引用类型的数组(类,接口,数组),并将其引用值压入栈顶  L[  L[[
+  newarray  : 创建一个原始类型数组(如byte,short,char,int等) , 并将其引用值压入栈顶 I[
+  
+  接口中的变量 ->默认 public static final 修饰 不能够有代码块
+  
+  类的实例化:
+    1.对类实例分配内存
+    2.对实例变量分配默认初始值
+    3.对实例变量分配实际值
+    java编译器会为每一个类的构造方法生成一个init方法(实例初始化方法)
+    对类变量有一个cliinit方法(类变量初始化方法)
+    
+    
+   类的加载最终产品是位于内存中的class对象
+   class对象封装了类在方法区的数据结构,并提供了访问方法区内数据结构的接口
+   
+   类加载器:
+     1.JDK自带加载器
+       1.1 根加载器(启动加载器) Bootstrap         -> 加载系统属性sun.boot.class.path中的包或目录下的包,如rt.jar
+       1.2 扩展加载器 Extension                  -> 加载jre/lib/ext包下 , 具体可看System.getProperty("java.ext.dirs")
+       1.3 系统加载器(应用加载器) System (App)     ->  加载java.class.path属性值/环境变量classpath 下的
+     2.用户自定义加载器
+        2.1 必须是java.lang.ClassLoader的子类
+        2.可以自定义加载的方式,只要加载进内存的是byte数组即可
+        
+        
+   类的加载并不一定要等到类的首次主动使用才进行加载;
+   JVM允许类加载预料某个类将要使用时可提前进行加载(未初始化),当加载.class文件有错误时,类加载器不会报错,而是当该类主动使用是跑出错误;
+   如果该类一直未被主动使用,那么就不会抛出错误(linkageError错误) , 详情demo -> TestOne.java
+    
+  
+    
 
 
 

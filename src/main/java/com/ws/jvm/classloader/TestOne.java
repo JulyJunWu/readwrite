@@ -12,16 +12,50 @@ public class TestOne {
 
     public static void main(String[] args) {
         //只输出 18
-        System.out.println(TestTwo.num);
+        System.out.println(TestOnePlus.num);
+
+        /**
+         * 未主动使用TestB 却被加载了, 但是并未初始化
+         */
+        System.out.println(TestB.num);
+
+        /**
+         *  原因 :
+         *      JVM允许类加载器 预料某个类将要使用前预先进行加载(并未初始化)
+         *      若预先加载过程中.class文件出错,并不会直接报错,而是在该类首次初始化时才抛出错误(linkageError错误)
+         *
+         *      若该类一直未被主动使用,那么类加载器就不会报错;
+         */
     }
 }
 
 
-class TestTwo {
+class TestOnePlus {
 
     public static final int num = 18;
 
     static {
         System.out.println("TestTwo");
     }
+}
+
+/**
+ * 测试 未主动首次进行的类却JVM被加载了
+ */
+class TestA{
+    public static int num = 10;
+
+    static {
+        System.out.println("TestA");
+    }
+}
+
+class TestB extends TestA{
+
+    public static int num2 = 20;
+
+    static {
+        System.out.println("TestB");
+    }
+
 }
