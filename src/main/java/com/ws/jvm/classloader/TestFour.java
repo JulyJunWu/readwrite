@@ -1,19 +1,19 @@
 package com.ws.jvm.classloader;
 
-import java.util.UUID;
-
 /**
  * @author Jun
  * data  2019-08-09 21:11
- *
- * 当调用接口中编译期间能确定的常量, 那么是不会触发父接口初始化
- *
- * 当调用接口中编辑期间不能确定的常量,则会对所有父接口进行初始化
- *
+ * <p>
+ * 调用接口中编译期间能确定的常量, 是不会触发该接口和父接口初始化(因为接口的变量都树常量,在编译期间直接保存在调用者类的常量池中)
+ * <p>
+ * 当调用接口中编辑期间不能确定的常量,则会对该接口进行初始化(若通过子接口调用父接口中编译期不能确定的常量,则父接口初始化,而非子接口)
  */
-public class TestFour {
+public class TestFour implements FourSon {
+
     public static void main(String[] args) {
-        System.out.println(FourSon.STR);
+        //System.out.println(FourSon.THREAD);
+        //不会对父接口进行初始化
+        TestFour four = new TestFour();
     }
 }
 
@@ -23,12 +23,23 @@ public class TestFour {
 interface FourParent {
     //接口中的变量默认都是(静态常量) public static final修饰的
     public static final int A = 10;
-    String STR2 = UUID.randomUUID().toString();
+
+    Thread THREAD = new Thread() {
+        {
+            System.out.println("我是FourParent线程");
+        }
+    };
+
 }
 
 interface FourSon extends FourParent {
     public static final int B = 11;
-    String STR = UUID.randomUUID().toString();
+
+    Thread THREAD2 = new Thread() {
+        {
+            System.out.println("我是FourSon线程");
+        }
+    };
 }
 
 
