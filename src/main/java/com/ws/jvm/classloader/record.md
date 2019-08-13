@@ -157,7 +157,30 @@
     当JVM启动时,一块特殊的机器码会执行,它会加载扩展类加载器和系统类加载器,它就是启动类加载器;
     启动类加载器是一个特定于平台的机器指令,它负责启动整个加载过程;
     
-   P25
+  
+   加载类加载器的步骤: java.lang.ClassLoader.getSystemClassLoader入口 -> sun.misc.Launcher
+        1.加载扩展类加载器(同时设置所需加载.class的文件)
+        2.加载应用类加载器,并将扩展类加载器设为应用类加载器的双亲(设置加载的目录或.class);
+        3.将应用类加载器设置为线程上下文类加载器
+        4.将应用类加载设置为ClassLoader类中的静态变量scl(该变量就是系统类加载器)
+        4.读取系统属性java.system.class.loader,
+            不存在该属性,则,直接返回;
+            如果存在则通过带有一个参数的构造器反射创建(必须拥有一个参数为ClassLoader的构造器),
+            将应用类加载设置为双亲;然后设置线程上下文类加载器为当前自定义的类加载器;
+            最后将scl设置为用户自定义的类加载器;
+    
+   线程上下文类加载器: 改变了双亲委托模型
+   SPI : Service Provider Interface
+   ServiceLoader了解下,
+   
+   理解ServiceLoader.load(Driver.class)加载mysql的jdbc驱动之后,想想springBoot的自定义starter , 感觉很像!
+   以前我们使用mysql的jdbc,需要Class.forName("com.jdbc.mysql.Driver)加载,
+   现在根本不需要,因为DriverManager.loadInitialDrivers()已经帮我们自动加载(线程上下文类加载器)了
+   
+   类的init()方法其实就是执行普通代码块;
+   P35
+   
+     
    
    
    
