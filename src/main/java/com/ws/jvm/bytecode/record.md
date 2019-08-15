@@ -53,7 +53,18 @@
     字段表用于描述类和接口中声明的变量.这里的字段包含了类级别变量以及实例变量,但是不包括方法内部声明的局部变量;
     先计算出fields的数量,2个字节 , 然后每个field都包含了字段表结构(请看字段表结构图.png)
     
-   P42
+Code结构:
+    attribute_length 表示attribute所包含的字节数,不包含attribute_name_index和attribute_length字段
+    max_stack : 表示这个方法运行的任何时刻所能达到的操作数栈的最大深度
+    max_Locals: 表示方法执行期间创建的局部变量的数目,包含用来表示传入参数的局部变量(在非静态方法中this也是一个参数)
+    code_length: 表示该方法所包含的字节码的字节数以及具体的指令码 , 具体字节码是该方法被调用后,虚拟机所执行的字节码
+    exception_table : 存放处理异常的信息
+      每个exception_table由start_pc,end_pc,handler_pc,catch_type组成
+    
+
+
+   P46
+
      
      
      
