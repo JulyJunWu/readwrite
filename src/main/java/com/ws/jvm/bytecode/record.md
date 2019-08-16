@@ -62,8 +62,13 @@ Code结构:
       每个exception_table由start_pc,end_pc,handler_pc,catch_type组成
     
 
-
-   P46
+   如果是私有方法的话,使用 javap -verbose xxx 是不会显示私有的字节码,需要使用javap -verbose -p xxx
+synchronized关键字:
+    锁住代码块: monitorenter - monitorexit ,这是没有异常的情况下 , 在有异常的情况下athrow之前也会调用另外一个monitorexit指令; 
+  
+ 有多少个构造方法就有多少个<init>,init是对类进行初始化赋值操作;
+ 静态变量是在cliinit中初始化的
+    
 
      
      

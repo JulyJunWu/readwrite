@@ -178,7 +178,9 @@
    现在根本不需要,因为DriverManager.loadInitialDrivers()已经帮我们自动加载(线程上下文类加载器)了
    
    类的init()方法其实就是执行普通代码块;
-   P35
+   
+   
+   P50
    
      
    
