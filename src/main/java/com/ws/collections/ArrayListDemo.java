@@ -1,4 +1,4 @@
-package com.ws.collecting;
+package com.ws.collections;
 
 import java.util.ArrayList;
 
