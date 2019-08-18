@@ -11,6 +11,9 @@ import java.util.UUID;
 public class TestTwo {
 
     public static void main(String[] args) {
+        //未初始化TestTwoPlus
+        System.out.println(TestTwoPlus.age);
+        //初始化TestTwoPlus
         System.out.println(TestTwoPlus.str);
     }
 }
@@ -18,6 +21,8 @@ public class TestTwo {
 class TestTwoPlus {
 
     public static final String str = UUID.randomUUID().toString();
+
+    public static final int age = 10;
 
     static {
         System.out.println("TestTwoPlus");

@@ -18,16 +18,8 @@ public class Test2 {
 
     public static void main(String[] args)throws Exception {
 
-        ClassLoader classLoader = Test2.class.getClassLoader();
-
-        Class<Unsafe> unsafeClass = Unsafe.class;
-
-        Field theUnsafe = unsafeClass.getDeclaredField("theUnsafe");
-
-        theUnsafe.setAccessible(true);
-
-        Unsafe o = (Unsafe) theUnsafe.get(null);
-
+        int value = new Test2().getValue();
+        System.out.println(value);
 
     }
 
@@ -41,4 +33,14 @@ public class Test2 {
             System.out.println(1111);
         }
     }
+
+    public int getValue(){
+        int a = 20;
+        try {
+            return a ;
+        }finally {
+            a = 20 ;
+        }
+    }
+
 }
