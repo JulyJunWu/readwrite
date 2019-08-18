@@ -1,5 +1,7 @@
 package com.ws.future;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,7 +13,28 @@ public class TestFuture {
     public static void main(String[] args) throws Exception {
 
         //one();
-        two();
+        //two();
+
+
+        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 10, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+
+
+        java.util.concurrent.Future<?> submit = poolExecutor.submit(() -> {
+
+            try {
+
+                while (true) {
+                    System.out.println("我很正常");
+                }
+            } catch (Exception e) {
+                System.out.println("我被打断了,emmmm");
+            }
+
+        });
+
+        TimeUnit.SECONDS.sleep(4);
+
+        boolean cancel = submit.cancel(true);
 
     }
 
@@ -41,7 +64,7 @@ public class TestFuture {
 
         Future<Integer> future = futureService.submit(input -> {
             try {
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -51,8 +74,10 @@ public class TestFuture {
             System.out.println("回调接口 : " + out);
         });
 
+        TimeUnit.SECONDS.sleep(1);
 
-        Integer result = future.get();
+        Integer result = future.get(3, TimeUnit.SECONDS);
+
 
         System.out.println("返回结果 -> " + result);
     }

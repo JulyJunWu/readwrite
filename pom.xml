@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ws</groupId>
-    <artifactId>readwritelock</artifactId>
+    <artifactId>readwrite</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
@@ -19,6 +19,13 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.2.5.Final</version>
+        </dependency>
+
 
     </dependencies>
 
