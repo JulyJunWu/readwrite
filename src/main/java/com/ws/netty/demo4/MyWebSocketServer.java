@@ -49,7 +49,7 @@ class WebSocketServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new HttpObjectAggregator(8192));
-        //webSocket的协议 ws://ip:port/路径
+        //webSocket的协议 ws://ip:port/路径,这里的路径是ws
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
 
         pipeline.addLast(new MyWebSocketHandler());
