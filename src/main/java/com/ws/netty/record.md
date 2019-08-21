@@ -41,8 +41,13 @@ java.nio拥有3个核心概念,Selector,Channel,Buffer;
     flip : 读写转换, 就是将 position赋给limit , 然后position变成0 , mark变为-1
     堆内/堆外内存 Heap / Direct
     
+
+Buffer
+    address表示堆外地址(只有直接缓冲才有,DirectorBuffer)
+    HeadBuffer 字节数组在堆内, 与IO打交道的时候需要将堆内中的字节数组拷贝一份到操作系统中,然后操作系统中才能与IO打交道;
+    DirectBuffer省去了拷贝堆内字节到操作系统(0拷贝),而是直接在操作系统开辟一块空间与IO交互;
     
-  P38
+P42 keep on
     
     
     
