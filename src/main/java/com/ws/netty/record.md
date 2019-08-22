@@ -47,6 +47,8 @@ Buffer
     HeadBuffer 字节数组在堆内, 与IO打交道的时候需要将堆内中的字节数组拷贝一份到操作系统中,然后操作系统中才能与IO打交道;
     DirectBuffer省去了拷贝堆内字节到操作系统(0拷贝),而是直接在操作系统开辟一块空间与IO交互;
     
+使用windows telnet ip port 只能发送一个字符, 进步命令行使用ctrl + ]就可以发送完整的字符串 , send 内容 
+    
 P42 keep on
     
     
