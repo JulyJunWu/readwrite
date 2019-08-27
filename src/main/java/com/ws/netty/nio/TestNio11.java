@@ -67,7 +67,6 @@ public class TestNio11 {
                         Iterator<SocketChannel> channelIterator = map.keySet().iterator();
 
                         String message = sb.toString();
-                        int index = 0 ;
                         while (channelIterator.hasNext()) {
 
                             SocketChannel next = channelIterator.next();
@@ -78,9 +77,7 @@ public class TestNio11 {
                             }
 
                             if (next == socketChannel) continue;
-
                             next.write(Charset.defaultCharset().encode(message));
-                            System.out.println(++index);
                         }
 
                         System.out.println(message);

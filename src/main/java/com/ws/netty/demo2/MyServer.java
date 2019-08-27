@@ -30,6 +30,8 @@ public class MyServer {
 
     public static void main(String[] args) throws Exception {
 
+
+        //默认使用当前电脑核数的线程数量 * 2 (Runtime.getRuntime().availableProcessors() * 2)
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup work = new NioEventLoopGroup();
 
