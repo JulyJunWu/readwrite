@@ -109,8 +109,30 @@ Netty不建议将耗时的业务逻辑在Handler中处理,因为这样会将nett
     ChannelPipeline addLast(EventExecutorGroup group, ChannelHandler... handlers);
     用户可以构建一个线程池,将耗时的业务逻辑用线程池来进行提交运行;
     ChannelPipeline是线程安全的;
+    ChannelHandlerContext:是一种链表形式结构,包含了next和pre的节点,所有在ChannelPipeline只需要一个Context就可以得到所有的Context;
+    ChannelHandlerContext与ChannelHandler是一对一的关系,当一个Handler加入到Pipeline中,就会new 一个新的Context对象(Context包含Handler),随后加入在ChannelPipeline的ChannelHandlerContext倒数第二个位置上(tail.prv,tail是不会变得,新加入的Handler都是加入在tail直面的)
+    ChannelPipeline严格意义来说未持有ChannelHandler对象,但是可以通过ChannelHandlerContext来获取ChannelHanlder;
     
-    P67 17分
+   ChannelPipeline,ChannelHandlerContext,ChannelHandler三者关系:
+        Pipeline持有Context对象,并且可以通过Context获取下一个或上一个Context(next,prev,其实就是链表结构);
+        Context持有Handler对象,与之是一对一关系;
+        大概如下::
+       ChannelPipeline{
+            ChannelHandlerContext context;
+        }
+       ChannelHandlerContext{
+            ChannelHandlerContext next;
+            ChannelHandlerContext prev;
+            ChannelHandler handler;
+        }
+        
+   ChannelInitializer接口只是提供对多个Handler进行包装;在Channel注册后,initChannel方法只会调用一次,就从PipeLine中移除;它的作业就是将initChannel的多个Handler与Chanel关联,当所有的Handler处理完毕后也就失去了作用,然后被移除(移除就是从ChannelHandlerContext这个双向链表中移除)
+   在Netty4.0的版本中,Channel和ChannelHandlerContext各自拥有自己的AttributeMap(本质就是一个map存储),注意:是一个Context拥有一个AttributeMap熟悉,
+   也就是说有多少个Handler就有多少个AttributeMap属性,比如:一个Channel,拥有10个Handler,那么久拥有10个Context,一共11个Attribute属性;
+   在Netty新版本之后改变了这一做法,全部Handler各自的Attribute属性已经统一使用Channel的Attribute了,也就是一个Channel不管拥有多少个Handler,它只有一个Attribute,现在ChannelContextHandler.attr()底层就是调用channel.attr()的;  第一个是为了减少开发者的疑惑,第二个是为了避免内存的浪费;
+    
+    
+  P72
     
         
         
