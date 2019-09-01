@@ -131,8 +131,21 @@ Netty不建议将耗时的业务逻辑在Handler中处理,因为这样会将nett
    也就是说有多少个Handler就有多少个AttributeMap属性,比如:一个Channel,拥有10个Handler,那么久拥有10个Context,一共11个Attribute属性;
    在Netty新版本之后改变了这一做法,全部Handler各自的Attribute属性已经统一使用Channel的Attribute了,也就是一个Channel不管拥有多少个Handler,它只有一个Attribute,现在ChannelContextHandler.attr()底层就是调用channel.attr()的;  第一个是为了减少开发者的疑惑,第二个是为了避免内存的浪费;
     
+  EventLoopGroup,EventLoop,Channel三者关系:
+    1.一个EventLoopGroup包含一个或多个EventLoop;
+    2.一个EventLoop在他的整个生命周期当中只会与唯一一个Thread进行绑定;
+    3.所有由EventLoop所处理的I/O事件都将在与它所关联的Thread上进行的;
+    4.一个channel在它的整个生命周期中只会注册到一个EventLoop;
+    5.一个EventLoop在运行过程当中,会被分配给一个或多个Channel;
     
-  P72
+JDK所提供的的Future接口只能通过手动方式检查结果,而这个操作时会阻塞的;
+Netty则对ChannelFuture进行了增强,通过ChannelFutureListener以回调的方式来获取执行结果,去除手动检查阻塞的操作;值得注意的是:ChannelFutureListener的operationComplete方法是由I/O线程执行的,因此要注意的是不要在这里执行耗时操作,否则需要通过另外的线程或线程池来执行;
+   Channel的writeAndFlush()与ChannelHandlerContext的writeAndFlush()比较:
+   假设有Handler如下 : 1 2 3 4 5
+     channel的则会调用最后的一个handler到第一个handler,则顺序为5 4 3 2 1(可以看看源码,源码是从tail开始);
+     context(假设此处是在3的handler中调用writeAndFlush)则会调用 2 1 (源码是从当前context的prev开始的);
+   
+  P79
     
         
         
