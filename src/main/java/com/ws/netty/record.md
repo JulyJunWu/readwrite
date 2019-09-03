@@ -173,8 +173,16 @@ Netty则对ChannelFuture进行了增强,通过ChannelFutureListener以回调的�
      ,如果ByteBuffer空间不足,我们只能重新创建一个更大的的新ByteBuffer,将旧的ByteBuffer拷贝至新的ByteBuffer;
     2. ByteBuffer使用一个指针来标志位置信息,进行读写时就需要调用flip()
     
+ 计数器 : AtomicIntegerFieldUpdater  AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
+     参数1 : 指定的泛型的class对象 , 参数二 : 需要更新的字段名称;
+     使用前提要求 : 1.被更新的字段修饰符不能是 private
+                  2.被更新的字段必须是int类型
+                  3.被更新的字段必须是volatile修饰(理volatile 的可见性和禁止指令重排序)
+     ByteBuf谁最后使用,那么就是谁释放
+     ByteBuf的衍生ByteBuf是与父ByteBuf共享同一份地址的,因此是不会使引用计数增加, 创建衍生ByteBuf方法 : slice() , duplicate() , readSlice(int)
   
-  P80
+  
+  86
     
         
         
