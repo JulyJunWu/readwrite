@@ -181,8 +181,13 @@ Netty则对ChannelFuture进行了增强,通过ChannelFutureListener以回调的�
      ByteBuf谁最后使用,那么就是谁释放
      ByteBuf的衍生ByteBuf是与父ByteBuf共享同一份地址的,因此是不会使引用计数增加, 创建衍生ByteBuf方法 : slice() , duplicate() , readSlice(int)
   
+ 自定义netty解码器(入栈处理器) 继承 ByteToMessageDecode , 解码时需要注意可读的长度是否足够!
+ 自定义netty编码器(出栈处理器)继承 MessageToByteEncode
+ 自定义编码器请看demo5(com.ws.netty.demo5);
+ 
+ 更好用的自定义编码器 , 继承 ReplayingDecoder (ByteToMessageDecode的抽象子类),我们可以不用关心读取的长度是否足够
   
-  86
+  90
     
         
         
