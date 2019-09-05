@@ -186,8 +186,8 @@ Netty则对ChannelFuture进行了增强,通过ChannelFutureListener以回调的�
  自定义编码器请看demo5(com.ws.netty.demo5);
  
  更好用的自定义编码器 , 继承 ReplayingDecoder (ByteToMessageDecode的抽象子类),我们可以不用关心读取的长度是否足够
-  
-  90
+ 
+ 自定义协议(com.ws.netty.demo6)
     
         
         
