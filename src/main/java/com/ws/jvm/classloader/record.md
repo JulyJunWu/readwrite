@@ -169,7 +169,8 @@
    
    理解ServiceLoader.load(Driver.class)加载mysql的jdbc驱动之后,想想springBoot的自定义starter , 感觉很像!
    以前我们使用mysql的jdbc,需要Class.forName("com.jdbc.mysql.Driver)加载,
-   现在根本不需要,因为DriverManager.loadInitialDrivers()已经帮我们自动加载(线程上下文类加载器)了
+   现在根本不需要,因为DriverManager.loadInitialDrivers()已经帮我们自动加载(线程上下文类加载器)了,还有一种方式就是手动设置系统变量
+   System.setProperty("jdbc.drivers","com.mysql.jdbc.Driver"); 多个驱动器则用:分割,这样DriverManager会去读取该变量去分割然后逐个加载驱动;
    
    类的init()方法其实就是执行普通代码块;
    
