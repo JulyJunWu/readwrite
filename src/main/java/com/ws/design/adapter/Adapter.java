@@ -12,10 +12,6 @@ public class Adapter implements Target {
         this.adaptee = adaptee;
     }
 
-    public void setAdaptee(Adaptee adaptee) {
-        this.adaptee = adaptee;
-    }
-
     @Override
     public void newWork() {
         adaptee.oldWork();
