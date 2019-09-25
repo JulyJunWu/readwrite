@@ -33,11 +33,12 @@ public class Main {
     public void useComposite(){
 
         Adaptee adaptee = new ConcreteAdaptee();
-        Adapter adapter = new Adapter(adaptee);
+        Target adapter = new Adapter(adaptee);
         adapter.newWork();
 
-        adapter.setAdaptee(new ConcreteAdaptee2());
-        adapter.newWork();
+        Target adapter2 = new Adapter(new ConcreteAdaptee2());
+        adapter2.newWork();
+
 
     }
 }
