@@ -1,9 +1,5 @@
 package com.ws.design.iterator;
 
-import com.google.common.collect.Maps;
-
-import java.util.HashMap;
-
 /**
  * @author Jun
  * data  2019-09-25 21:19
@@ -35,9 +31,6 @@ public class Main {
             String next = iterator1.next();
             System.out.println(next);
         }
-
-        HashMap<Object, Object> objectObjectHashMap = Maps.newHashMapWithExpectedSize(3);
-
     }
 
 }

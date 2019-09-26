@@ -1,5 +1,19 @@
 不规范笔记:
     -verbose:class 设置jvm参数 -> 控制台打印出哪个类是由哪个jar加载的
+    默认8005端口监听SHUTDOWN命令关闭程序
+    默认address为localhost监听地址
+    Server:
+        List<LifecycleListener> lifecycleListeners;
+        GlobalNamingResources globalNamingResources;
+        Service [] service;
+    Service:
+        Connector [] connector;        
+        Engine engine;
+    Engine:
+        Realm realm;   
+        Host host;
+    Host host;
+        Valve valve;
     启动类 : Bootstrap.main
     tomcat启动所需要的配置文件路径: 具体源码请看org.apache.catalina.startup.Bootstrap P66
         1.如果有 System.getProperty("catalina.home")有值则使用该目录作为配置文件路径;
@@ -31,7 +45,8 @@
     load: 反射执行catalina.load()
         Catalina.load()流程: 主要是启动Server实例
             1.initDirs() 临时目录验证 (System.getProperty("java.io.tmpdir"))
-            2.initNaming() 
+            2.initNaming()  主要是设置一些环境变量,是否使用命名
+            3.创建解析器,用来解析server.xml变成对象的过程; 解析器包含了容器的默认实现类, org.apache.catalina.startup.Catalina.createStartDigester 
             
         
             
