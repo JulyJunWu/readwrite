@@ -2,6 +2,16 @@
     -verbose:class 设置jvm参数 -> 控制台打印出哪个类是由哪个jar加载的
     默认8005端口监听SHUTDOWN命令关闭程序
     默认address为localhost监听地址
+    Poller thread count: 2个
+    容器 : 自上而下容器顺序,顶层容器不能拥有父容器,底层容器不能拥有子容器
+           Engine, Host , Context , Wrapper;
+           Wrapper的父容器只能是Context;
+           Wrapper添加子容器直接报错;
+    容器与Pipeline和Valve关系: 相当于Netty中Channel,ChannelPipeLine,ChannelContextHandler
+        每个容器持有一个Pipeline
+        每个Pipeline持有基础的Valve和Valve顶层引用;
+        Valve是一种链表结构,next获取下一个Valve;
+    Valve链表最后一个一定是basic,具体的basics实现看各自的容器是什么,比如Host , 那么basic的实现就是StandardHostValve,以此类推;
     Server:
         List<LifecycleListener> lifecycleListeners;
         GlobalNamingResources globalNamingResources;
@@ -11,9 +21,16 @@
         Engine engine;
     Engine:
         Realm realm;   
-        Host host;
+        Host [] host;
+        Pipeline Pipeline;
     Host host;
-        Valve valve;
+        Context [] Context;
+        Pipeline Pipeline;
+    Wrapper wrapper;
+        Pipeline Pipeline;
+    Pipeline :
+        Valve basic;
+        Valve first;
     启动类 : Bootstrap.main
     tomcat启动所需要的配置文件路径: 具体源码请看org.apache.catalina.startup.Bootstrap P66
         1.如果有 System.getProperty("catalina.home")有值则使用该目录作为配置文件路径;
@@ -47,7 +64,6 @@
             1.initDirs() 临时目录验证 (System.getProperty("java.io.tmpdir"))
             2.initNaming()  主要是设置一些环境变量,是否使用命名
             3.创建解析器,用来解析server.xml变成对象的过程; 解析器包含了容器的默认实现类, org.apache.catalina.startup.Catalina.createStartDigester 
-            
-        
+    Server init() : 执行各种生命周期, 然后各种触发观察者事件
             
     
